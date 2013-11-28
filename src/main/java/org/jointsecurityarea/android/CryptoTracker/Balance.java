@@ -1,9 +1,8 @@
-package com.example.CryptoTracker;
+package org.jointsecurityarea.android.CryptoTracker;
 
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,42 +11,87 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Balance extends ListActivity {
     final private String TAG = this.getClass().getSimpleName();
     private ArrayList<Ticker> tickers;
     private TickerArrayAdapter ticker_adapter;
     private BitstampBTCUSDTicker bitstamp;
+    private ScheduledExecutorService scheduleTaskExecutor;
+    private BigDecimal totalHoldings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        // Create ticker list
         this.tickers = new ArrayList<Ticker>();
-        this.bitstamp = new BitstampBTCUSDTicker();
-        this.tickers.add(this.bitstamp);
-        this.tickers.add(new BTCELTCBTCTicker());
-        this.tickers.add(new BTCEFTCBTCTicker());
-        this.tickers.add(new BTCENMCBTCTicker());
+
+        try {
+            this.bitstamp = new BitstampBTCUSDTicker();
+            this.tickers.add(this.bitstamp);
+            this.tickers.add(new BTCELTCBTCTicker());
+            this.tickers.add(new BTCEFTCBTCTicker());
+            this.tickers.add(new BTCENMCBTCTicker());
+            this.tickers.add(new BTCEXPMBTCTicker());
+        } catch(MalformedURLException e) {
+            Log.i(TAG, "Failed to add ticker: " + e.getMessage());
+        }
+        // Create list adapter
         this.ticker_adapter = new TickerArrayAdapter(
                 this, android.R.layout.simple_expandable_list_item_1);
+
+        // Create header view
+        View headerView = getLayoutInflater().inflate(R.layout.ticker_row, null);
+        TextView tv = (TextView)headerView.findViewById(R.id.currency);
+        tv.setText("Currency");
+        tv.setTextSize((float)12.0);
+        tv = (TextView)headerView.findViewById(R.id.amountBTC);
+        tv.setText("BTC");
+        tv.setTextSize((float)12.0);
+        tv = (TextView)headerView.findViewById(R.id.amountUSD);
+        tv.setText("USD");
+        tv.setTextSize((float)12.0);
+        tv = (TextView)headerView.findViewById(R.id.amountUSDTotal);
+        tv.setText("Total in USD");
+        tv.setTextSize((float)12.0);
+        ((ListView)findViewById(android.R.id.list)).addHeaderView(headerView);
+
+        // Set list adapter
         setListAdapter(this.ticker_adapter);
-        new AsyncFetch().execute();
+        scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
+
+        // This schedule a task to run every 5 minutes:
+        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                new AsyncFetch().execute();
+            }
+        }, 0, 5, TimeUnit.MINUTES);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         new AsyncFetch().execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        scheduleTaskExecutor.shutdown();
     }
 
     class TickerArrayAdapter extends ArrayAdapter<Ticker> {
@@ -82,6 +126,7 @@ public class Balance extends ListActivity {
                         BigDecimal j = new BigDecimal(item.getHoldings());
                         BigDecimal total = i.multiply(j);
                         amountUSDTotal.setText(n.format(total.doubleValue()));
+                        totalHoldings = totalHoldings.add(total);
                     }
                 } else {
                     // It's ???/BTC
@@ -98,13 +143,16 @@ public class Balance extends ListActivity {
                             BigDecimal k = new BigDecimal(item.getHoldings());
                             BigDecimal total = lastDollars.multiply(k);
                             amountUSDTotal.setText(n.format(total.doubleValue()));
+                            totalHoldings = totalHoldings.add(total);
                         }
                     }
                 }
-
             }
+            TextView amountUSDTotalFinal = (TextView)findViewById(R.id.totalHoldings);
+            amountUSDTotalFinal.setText(n.format(totalHoldings));
             return v;
         }
+
     }
 
     class AsyncFetch extends AsyncTask<Void, Void, Void> {
@@ -137,11 +185,13 @@ public class Balance extends ListActivity {
         protected void onPostExecute(Void params) {
             super.onPostExecute(params);
             progressDialog.dismiss();
-            ArrayAdapter<Ticker> adapter = (ArrayAdapter<Ticker>)getListAdapter();
+            ArrayAdapter<Ticker> adapter = (ArrayAdapter<Ticker>) getListAdapter();
+            totalHoldings = new BigDecimal(0);
             adapter.clear();
             adapter.addAll(tickers);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

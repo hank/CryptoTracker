@@ -27,4 +27,11 @@
     <string-array name="namecoinAPIValues">
         <item>BTC-E</item>
     </string-array>
+
+    <string-array name="primecoinAPIs">
+        <item>BTC-E</item>
+    </string-array>
+    <string-array name="primecoinAPIValues">
+        <item>BTC-E</item>
+    </string-array>
 </resources>

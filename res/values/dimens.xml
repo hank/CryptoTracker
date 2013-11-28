@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<dimen name="ticker_price">18dip</dimen>
-<dimen name="ticker_name">19dip</dimen>
+<dimen name="ticker_price">15dip</dimen>
+<dimen name="ticker_name">18dip</dimen>
+<dimen name="widget_margin">8dp</dimen>
 </resources>

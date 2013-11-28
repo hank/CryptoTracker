@@ -1,11 +1,8 @@
-package com.example.CryptoTracker;
+package org.jointsecurityarea.android.CryptoTracker;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 
 /**
  * Created with IntelliJ IDEA.

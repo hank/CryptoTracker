@@ -30,6 +30,13 @@
                 android:entries="@array/namecoinAPIs"
                 android:entryValues="@array/namecoinAPIValues"
                 />
+        <ListPreference
+                android:key="prefXPMAPI"
+                android:title="Primecoin Exchange"
+                android:summary="Set which exchange to pull Primecoin info from"
+                android:entries="@array/primecoinAPIs"
+                android:entryValues="@array/primecoinAPIValues"
+                />
     </PreferenceCategory>
     <PreferenceCategory android:title="Holdings" >
         <EditTextPreference
@@ -54,6 +61,12 @@
                 android:key="prefFTCHoldings"
                 android:title="Feathercoin Holdings"
                 android:summary="How many FTC do you have?"
+                android:inputType="phone"
+                />
+        <EditTextPreference
+                android:key="prefXPMHoldings"
+                android:title="Primecoin Holdings"
+                android:summary="How many XPM do you have?"
                 android:inputType="phone"
                 />
     </PreferenceCategory>

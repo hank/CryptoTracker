@@ -6,7 +6,23 @@
         >
     <ListView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@android:id/list" android:layout_gravity="center"/>
+            android:layout_height="0px"
+            android:id="@android:id/list" android:layout_gravity="center" android:layout_weight="1"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip" android:layout_weight="0">
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:text="Total Holdings"
+                android:id="@+id/textView" android:layout_weight="1" android:gravity="center_vertical|center_horizontal"
+                android:textSize="23dip" android:textIsSelectable="true"/>
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:id="@+id/totalHoldings" android:layout_weight="1" android:gravity="center_vertical|center_horizontal"
+                android:textSize="19dip" android:textIsSelectable="false"/>
+    </LinearLayout>
 </LinearLayout>
 
