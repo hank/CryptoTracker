@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bitcoinAPIs">
+        <item>Bitstamp</item>
+    </string-array>
+    <string-array name="bitcoinAPIValues">
+        <item>Bitstamp</item>
+    </string-array>
+
+    <string-array name="litecoinAPIs">
+        <item>BTC-E</item>
+    </string-array>
+    <string-array name="litecoinAPIValues">
+        <item>BTC-E</item>
+    </string-array>
+
+    <string-array name="feathercoinAPIs">
+        <item>BTC-E</item>
+    </string-array>
+    <string-array name="feathercoinAPIValues">
+        <item>BTC-E</item>
+    </string-array>
+
+    <string-array name="namecoinAPIs">
+        <item>BTC-E</item>
+    </string-array>
+    <string-array name="namecoinAPIValues">
+        <item>BTC-E</item>
+    </string-array>
+</resources>

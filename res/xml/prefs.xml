@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="API Settings" >
+        <ListPreference
+                android:key="prefBTCAPI"
+                android:title="Bitcoin Exchange"
+                android:summary="Set which exchange to pull Bitcoin info from"
+                android:entries="@array/bitcoinAPIs"
+                android:entryValues="@array/bitcoinAPIValues"
+                />
+        <ListPreference
+                android:key="prefLTCAPI"
+                android:title="Litecoin Exchange"
+                android:summary="Set which exchange to pull Litecoin info from"
+                android:entries="@array/litecoinAPIs"
+                android:entryValues="@array/litecoinAPIValues"
+                />
+        <ListPreference
+                android:key="prefFTCAPI"
+                android:title="Feathercoin Exchange"
+                android:summary="Set which exchange to pull Feathercoin info from"
+                android:entries="@array/feathercoinAPIs"
+                android:entryValues="@array/feathercoinAPIValues"
+                />
+        <ListPreference
+                android:key="prefNMCAPI"
+                android:title="Namecoin Exchange"
+                android:summary="Set which exchange to pull Namecoin info from"
+                android:entries="@array/namecoinAPIs"
+                android:entryValues="@array/namecoinAPIValues"
+                />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Holdings" >
+        <EditTextPreference
+            android:key="prefBTCHoldings"
+            android:title="Bitcoin Holdings"
+            android:summary="How many BTC do you have?"
+            android:inputType="phone"
+            />
+        <EditTextPreference
+                android:key="prefLTCHoldings"
+                android:title="Litecoin Holdings"
+                android:summary="How many LTC do you have?"
+                android:inputType="phone"
+                />
+        <EditTextPreference
+                android:key="prefNMCHoldings"
+                android:title="Namecoin Holdings"
+                android:summary="How many NMC do you have?"
+                android:inputType="phone"
+                />
+        <EditTextPreference
+                android:key="prefFTCHoldings"
+                android:title="Feathercoin Holdings"
+                android:summary="How many FTC do you have?"
+                android:inputType="phone"
+                />
+    </PreferenceCategory>
+
+</PreferenceScreen>
